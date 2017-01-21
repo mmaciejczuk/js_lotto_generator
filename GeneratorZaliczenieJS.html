@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Generator</title>
+    <meta name="description" content="generator">
+</head>
+
+<body></body>
+
+<script type="text/javascript">
+    window.onload = function () {
+        genHeader();
+        genTable();
+        genButton();
+    }
+
+    function genHeader() {
+        var header = document.createElement("H3");
+        var t = document.createTextNode("Generator 6 z 49");
+        header.appendChild(t);
+        document.body.appendChild(header);
+    }
+
+    function genButton() {
+        var btn = document.createElement("BUTTON");
+        btn.id = "losujBtn";
+        var t = document.createTextNode("LOSUJ");
+        btn.appendChild(t);
+        btn.onclick = genResult;
+        document.body.appendChild(btn);
+    }
+
+    function genTable() {
+        var counter = 0;
+        var bd = document.body;
+
+        var tb = document.createElement('TABLE');
+        tb.id = "mainTbl";
+        tb.style.width = '100px';
+        tb.style.border = '1px solid black';
+        var tbBody = document.createElement('TBODY');
+        tb.appendChild(tbBody);
+
+        for (var i = 0; i < 5; i++) {
+            var tr = document.createElement('TR');
+            tbBody.appendChild(tr);
+
+            for (var j = 0; j < 10; j++) {
+                var td = document.createElement('TD');
+                td.width = '100px';
+                var btn = document.createElement("BUTTON");
+                var t = document.createTextNode("LOSUJ");
+                btn.appendChild(t);
+                if (counter == 0) {
+                    td.appendChild(document.createTextNode("/"));
+                    tr.appendChild(td);
+
+                } else {
+                    td.appendChild(document.createTextNode(counter));
+                    tr.appendChild(td);
+                }
+                counter++;
+            }
+        }
+        bd.appendChild(tb);
+    }
+
+    function genResult() {
+        var temp = [];
+        for (var i = 0; i < 6; i++) {
+            var numer = (Math.floor(Math.random() * 49) + 1);
+            if (temp.indexOf(numer) == -1)
+                temp.push(numer);
+            else
+                i--;
+        }
+        var p = document.createElement('P');
+        var result = temp.sort(function (a, b) {
+            return a - b
+        });
+        p.textContent = result.join(', ');
+        document.body.appendChild(p);
+        colorCells('mainTbl', result, '#A9DA38');
+    }
+
+
+    function colorCells(tbName, result, color) {
+        var cols = document.getElementById(tbName).getElementsByTagName('td');
+        var i = -1;
+        var j = -1;
+        var temp = 0;
+        while (++j < result.length){
+            //alert(result[j]);
+            while (++i < cols.length){               
+                if (Number(cols[i].innerHTML) == result[j]){
+                    cols[i].style.backgroundColor = '#A9DA38';
+                    temp = i;
+                } 
+                else {
+                    cols[i].style.backgroundColor = 'white';
+                }
+            }i = temp;
+        }
+    }
+
+</script>
+
+</html>
